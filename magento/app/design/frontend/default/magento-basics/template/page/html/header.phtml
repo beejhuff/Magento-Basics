@@ -1,0 +1,34 @@
+<p>Login and log out links</p>
+
+<ul>
+	<?php if ($this->helper('customer')->isLoggedIn() ) { ?>
+		<li><a href="/customer/account/logout/">Log out</a></li>
+		<!-- <li><a href="/customer/account/create/">Register</a></li> -->
+	<?php } else { ?>
+		<li><a href="/customer/account/login/">Sign in</a></li>
+		<li><a href="/customer/account/create/">Register</a></li>
+	<?php } // logged in ?>
+</ul>
+
+<p>Simple code to dispay cart count</p>
+
+<ul>
+	<?php
+	$count = $this->helper('checkout/cart')->getSummaryCount();  //get total items in cart
+	$total = $this->helper('checkout/cart')->getQuote()->getGrandTotal(); //get total price
+	if($count>1) {
+		echo $this->__('<li><a href="/checkout/cart"><strong>Basket (%s Items)</strong></a></li>',$count);
+	} else if ($count==1) {
+		echo $this->__('<li><a href="/checkout/cart"><strong>Basket (1 Item)</a></li></strong>',$count);
+	} else {
+		echo $this->__('<li><a href="/checkout/cart"><strong>Basket (0 Items)</strong></a></li>',$count);
+	}
+	?>
+</ul>
+
+<p>Seasonal Link/Banner</p>
+
+<?php $category = Mage::getModel('catalog/category')->load('188'); // where 188 is the caregory ID
+if ($category->getIsActive()) { ?>
+	<li><a class="special-price" href="<?php echo $category->getUrl() ; ?>">Sale</a></li>
+<?php } ?>
